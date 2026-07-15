@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="tab-title">CYBER GAMES</title>
+    <link id="tab-favicon" rel="icon" type="image/png" href="logo.png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=Space+Grotesk:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+        /* Color Scheme Root Variables (Default Blue-Purple) */
+        :root {
+            --primary-color: #00d2ff;
+            --secondary-color: #9d4edd;
+            --bg-color: #06020f;
+            --panel-bg: rgba(13, 8, 28, 0.88);
+            --panel-border: rgba(157, 78, 221, 0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: url('background.png') no-repeat center center fixed;
+            background-size: cover;
+            background-color: var(--bg-color);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            font-family: 'Outfit', sans-serif;
+            transition: background-color 0.3s ease;
+        }
+
+        /* --- Global Extruded 3D Title Component --- */
+        .title-3d {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 900;
+            font-style: italic;
+            font-size: 4.5rem;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-align: center;
+            margin-bottom: 35px;
+            text-shadow: 
+                1px 1px 0px var(--primary-color),
+                2px 2px 0px var(--primary-color),
+                3px 3px 0px #000000,
+                4px 4px 0px #000000,
+                5px 5px 0px var(--secondary-color),
+                6px 6px 0px var(--secondary-color),
+                7px 7px 0px #000000,
+                8px 8px 0px #000000,
+                9px 9px 12px rgba(0, 0, 0, 0.8);
+        }
+
+        /* --- Top Navigation Header Bar --- */
+        .top-navbar {
+            background-color: #020005;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            height: 80px;
+            border-bottom: 2px solid var(--primary-color);
+            z-index: 100;
+        }
+
+        .nav-tabs-bar {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* Pushes all tabs to the right side of the navbar */
+            width: 100%;
+            height: 100%;
+        }
+
+        .right-tabs-group {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            gap: 12px;
+        }
+
+        /* Distinct Tab Box Layout with Symbol Directly Above Text */
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            height: 76px;
+            width: 105px;
+            padding: 8px 12px;
+            color: #a4a2c0;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(5, 2, 12, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+        }
+
+        .nav-link:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Active tab adjustments - Scales nicely without coloring overrides */
+        .nav-link.active {
+            transform: scale(1.16);
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.3);
+            text-shadow: none;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        /* --- Main Content Layout Viewports --- */
+        .main-container {
+            flex-grow: 1;
+            padding: 40px 24px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .view-panel {
+            display: none;
+            width: 100%;
+            max-width: 1300px;
+        }
+
+        .view-panel.active {
+            display: block;
+        }
+
+        /* --- Home Tab Architecture Screen Scope Layout --- */
+        .home-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        /* Sandbox execution scope wrapper specifically for cyber.png */
+        .home-image {
+            width: 95vw;
+            max-width: 1200px;
+            height: 50vh;
+            object-fit: contain; /* Ensures the whole image stays visible without getting cut off */
+            border: 2px solid var(--panel-border);
+            border-radius: 12px;
+            background: rgba(5, 2, 12, 0.95);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        /* --- Fully Rounded and Centered Secure Web Browser Styles --- */
+        .search-console {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid var(--primary-color);
+            background: #04010a;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-radius: 30px;
+            padding: 4px 20px;
+            margin: 0 auto 25px auto;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .search-console form {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-bar-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            padding: 14px;
+            color: #ffffff;
+            font-size: 1.2rem;
+            outline: none;
+            font-family: 'Share Tech Mono', monospace;
+            text-align: center;
+        }
+
+        .sandbox-browser-viewport {
+            width: 100%;
+            height: 580px;
+            border: 2px solid var(--panel-border);
+            background: rgba(5, 2, 12, 0.95);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .embedded-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #ffffff;
+            display: none;
+        }
+
+        .browser-idle-state {
+            margin: auto;
+            text-align: center;
+            color: #6a668a;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .routing-alert {
+            padding: 12px;
+            background: rgba(0, 210, 255, 0.08);
+            border-bottom: 1px solid var(--panel-border);
+            text-align: center;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.95rem;
+        }
+        .routing-alert a { color: var(--secondary-color); text-decoration: none; font-weight: bold; }
+
+        /* --- About Tab Card Blocks --- */
+        .info-card-box {
+            background: var(--panel-bg);
+            border: 2px solid var(--panel-border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            padding: 35px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .info-card-box h2 {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .info-card-box ol {
+            padding-left: 24px;
+        }
+
+        .info-card-box li {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 14px;
+            color: #d2cde6;
+        }
+
+        .info-card-box p {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: #d2cde6;
+            text-align: justify;
+        }
+
+        /* --- Settings Panel Layout --- */
+        .settings-layout-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .config-node-card {
+            background: var(--panel-bg);
+            border: 2px solid var(--panel-border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            padding: 30px;
+            border-radius: 12px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .config-node-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            font-size: 1.25rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .input-wrapper-node {
+            margin-bottom: 20px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .input-wrapper-node label {
+            display: block;
+            font-size: 0.85rem;
+            color: #9da3af;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .control-select, .control-field-input {
+            width: 85%;
+            max-width: 450px;
+            background: #05020a;
+            border: 1px solid var(--panel-border);
+            border-radius: 6px;
+            color: #ffffff;
+            padding: 14px;
+            outline: none;
+            font-size: 1rem;
+            font-family: 'Share Tech Mono', monospace;
+            text-align: center;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .control-select:focus, .control-field-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .macro-bind-btn {
+            background: #0a0414;
+            border: 1px dashed var(--primary-color);
+            border-radius: 6px;
+            color: var(--primary-color);
+            padding: 14px;
+            width: 85%;
+            max-width: 450px;
+            cursor: pointer;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-family: 'Share Tech Mono', monospace;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+        }
+        .macro-bind-btn:hover {
+            background: var(--primary-color);
+            color: #000000;
+        }
+
+        .theme-buttons-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            width: 85%;
+            max-width: 450px;
+            margin-top: 10px;
+        }
+
+        .theme-btn {
+            background: #05020a;
+            border: 1px solid var(--panel-border);
+            color: #ffffff;
+            padding: 12px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .theme-btn:hover {
+            border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+/* --- Updated Styles for Single Row Square Boxes --- */
+        .info-grid-container {
+            display: grid;
+            /* Force exactly 6 columns in a single row */
+            grid-template-columns: repeat(5, 1fr); 
+            gap: 15px; /* Reduced gap slightly so they fit better side-by-side */
+            width: 100%;
+            max-width: 1200px; 
+            margin: 30px auto 0 auto; 
+            padding-bottom: 20px;
+        }
+
+        .info-box-item {
+            background-color: #000000; 
+            border: 2px solid var(--panel-border); 
+            border-radius: 12px;
+            padding: 15px 10px; /* Adjusted padding to prevent text overflow */
+            display: flex;
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; /* Centers content vertically inside the square */
+            text-align: center; 
+            
+            /* CRITICAL: Forces the box to be a perfect square */
+            aspect-ratio: 1 / 1; 
+            
+            /* Prevents long text from breaking the square shape */
+            overflow: hidden; 
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .info-box-item:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.2);
+        }
+
+        .info-box-image {
+            width: 90px; /* Reduced slightly to ensure text fits inside the square */
+            height: 90px; 
+            object-fit: contain; 
+            margin-bottom: 10px; 
+        }
+
+        .info-box-text {
+            color: #ffffff; 
+            /* Slightly smaller font size so longer phrases stay inside the square */
+            font-size: 0.8rem; 
+            line-height: 1.4;
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+        }
+
+/* --- Styles for the Interactive Game Launch Button --- */
+        .game-launch-btn {
+            position: relative;
+            width: 250px; /* Adjust width as needed */
+            height: 250px; /* Adjust height as needed */
+            border: 2px solid var(--panel-border);
+            border-radius: 16px;
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #000000;
+            
+            /* Smooth transition for the growing effect */
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s, box-shadow 0.3s;
+        }
+
+        /* The background image inside the button */
+        .game-launch-btn .btn-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Ensures the image takes up the entire button without stretching warp */
+            object-fit: cover; 
+            z-index: 1;
+        }
+
+        /* Text layout with a thick black outline */
+        .game-launch-btn .btn-text {
+            position: relative;
+            z-index: 2; /* Sits on top of the image */
+            color: #ffffff; /* White text */
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            text-align: center;
+            padding: 10px;
+            
+            /* Creates the thick black text outline/shadow */
+            text-shadow: 
+                -2px -2px 0 #000,  
+                 2px -2px 0 #000,
+                -2px  2px 0 #000,
+                 2px  2px 0 #000,
+                 0px  3px 5px rgba(0,0,0,0.8);
+        }
+
+        /* Hover Effect: Button grows in size */
+        .game-launch-btn:hover {
+            transform: scale(1.08); /* Grows by 8% */
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 25px rgba(0, 210, 255, 0.3);
+        }
+        
+        /* Active Effect: Slight shrink when clicked */
+        .game-launch-btn:active {
+            transform: scale(0.98);
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div class="top-navbar">
+        <div class="nav-tabs-bar">
+            <div class="right-tabs-group">
+                <div class="nav-link active" id="tab-link-cyber" onclick="navigatePanel('cyber')">
+                    <img src="home.png" alt="" class="nav-icon">
+                    <span>Home</span>
+                </div>
+                <div class="nav-link" id="tab-link-games" onclick="navigatePanel('games')">
+                    <img src="games.png" alt="" class="nav-icon">
+                    <span>Games</span>
+                </div>
+                <div class="nav-link" id="tab-link-browser" onclick="navigatePanel('browser')">
+                    <img src="browser.png" alt="" class="nav-icon">
+                    <span>Browser</span>
+                </div>
+                <div class="nav-link" id="tab-link-movies" onclick="navigatePanel('movies')">
+                    <img src="movies.png" alt="" class="nav-icon">
+                    <span>Movies</span>
+                </div>
+                <div class="nav-link" id="tab-link-about" onclick="navigatePanel('about')">
+                    <img src="about.png" alt="" class="nav-icon">
+                    <span>About</span>
+                </div>
+                <div class="nav-link" id="tab-link-settings" onclick="navigatePanel('settings')">
+                    <img src="settings.png" alt="" class="nav-icon">
+                    <span>Settings</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+
+<div class="view-panel active" id="panel-cyber">
+            <div class="home-stack">
+                <img src="cyber.png" alt="Cyber Home" class="home-image" id="home-core-frame">
+                
+                <div class="info-grid-container">
+                    
+                    <div class="info-box-item">
+                        <img src="tb1.png" alt="Icon 1" class="info-box-image">
+                        <p class="info-box-text">Play a variety of games during school or home</p>
+                    </div>
+
+                    <div class="info-box-item">
+                        <img src="tb2.png" alt="Icon 2" class="info-box-image">
+                        <p class="info-box-text">No download needed. Run it directly on your computer</p>
+                    </div>
+
+                    <div class="info-box-item">
+                        <img src="tb3.png" alt="Icon 3" class="info-box-image">
+                        <p class="info-box-text">A clean, simple, easy to use, game site that doesn't have complex controls</p>
+                    </div>
+
+                    <div class="info-box-item">
+                        <img src="tb4.png" alt="Icon 4" class="info-box-image">
+                        <p class="info-box-text">Find the code on GitHub and make your own unblocked URL</p>
+                    </div>
+
+                    <div class="info-box-item">
+                        <img src="tb5.png" alt="Icon 5" class="info-box-image">
+                        <p class="info-box-text">No ads or popups on this site, your privacy matters</p>
+                    </div>
+
+                </div> </div>
+        </div>
+
+<div class="view-panel" id="panel-games">
+            <h1 class="title-3d">Games</h1>
+            
+            <div style="display: flex; justify-content: center; padding: 20px;">
+                
+                <button class="game-launch-btn" onclick="window.location.href='baldisbasics.html'">
+                    <img src="baldisbasics.png" alt="Game Background" class="btn-bg">
+                    <span class="btn-text">Baldis Basics</span>
+                </button>
+
+		<button class="game-launch-btn" onclick="window.location.href='crazycattle.html'">
+                    <img src="crazycattle.png" alt="Game 2 Background" class="btn-bg">
+                    <span class="btn-text">Crazy Cattle 3D</span>
+                </button>
+
+		<button class="game-launch-btn" onclick="window.location.href='ragdollarchers.html'">
+                    <img src="ragdollarchers.png" alt="Game 2 Background" class="btn-bg">
+                    <span class="btn-text">Ragdoll Archers</span>
+                </button>
+
+            </div>
+        </div>
+
+        <div class="view-panel" id="panel-browser">
+            <h1 class="title-3d">Browser</h1>
+            <div class="search-console">
+                <form id="core-browser-form">
+                    <input type="text" id="core-browser-input" class="search-bar-input" placeholder="Search Here" autocomplete="off">
+                </form>
+            </div>
+            <div class="sandbox-browser-viewport">
+                <div class="routing-alert hidden" id="routing-notice-display"></div>
+                <iframe src="about:blank" class="embedded-iframe" id="embedded-frame-node"></iframe>
+                <div class="browser-idle-state" id="browser-idle-message">
+                    <p>SECURE ROUTER DISPATCH READY. ENTER INPUT STRATAGEM ABOVE.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-panel" id="panel-movies">
+            <h1 class="title-3d">Movies</h1>
+        </div>
+
+        <div class="view-panel" id="panel-about">
+            <h1 class="title-3d">About</h1>
+            <div class="info-card-box">
+                <h2>Disclaimers</h2>
+                <ol>
+		    <li>Parts of this site was made using AI</li>
+                    <li>We are not responsible for any trouble you get in using this site</li>
+                    <li>You will not share this with teacher's pets or untrustworthy students</li>
+                    <li>You understand we do not support copyright directly</li>
+                    <li>You are allowed to copy the HTML to make your own links however are not allowed to copy the HTML and remake it into your own site</li>
+                    <li>You understand we do not claim ownership in any of these games/movies</li>
+                    <li>You understand we did not make these movies/games we found and used them from docs</li>
+                    <li>You understand we are for entertainment purposes only</li>
+                </ol>
+            </div>
+            <div class="info-card-box">
+                <p>Garaz and Encrypted are friends who decided to work together to make this site. Garaz taught Encrypted HTML and how to use GitHub. Encrypted and Garaz have Lightspeed, an extremely strict blocker. Garaz is an editor on multiple docs on the doc network and Encrypted has tried owning two docs but ended to be failures (one was blocked, the other was given up). Encrypted now is an editor on Gimkit Maps and friends with all the editors on it.</p>
+            </div>
+        </div>
+
+        <div class="view-panel" id="panel-settings">
+            <h1 class="title-3d">Settings</h1>
+            <div class="settings-layout-grid">
+                
+                <div class="config-node-card">
+                    <h3>Theme Selection</h3>
+                    <div class="input-wrapper-node">
+                        <label>Choose Interface Colors Presets:</label>
+                        <div class="theme-buttons-container">
+                            <button class="theme-btn" onclick="executeThemeChange('blue-purple')">Blue & Purple</button>
+                            <button class="theme-btn" onclick="executeThemeChange('cyan-emerald')">Cyan & Emerald</button>
+                            <button class="theme-btn" onclick="executeThemeChange('crimson-orange')">Crimson & Orange</button>
+                            <button class="theme-btn" onclick="executeThemeChange('nebula-pink')">Nebula & Pink</button>
+                            <button class="theme-btn" onclick="executeThemeChange('solar-gold')">Solar & Gold</button>
+                            <button class="theme-btn" onclick="executeThemeChange('monochrome')">Monochrome</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="config-node-card">
+                    <h3>Tab Cloak Camouflage</h3>
+                    <div class="input-wrapper-node">
+                        <label>Active Identity Mask Profile:</label>
+                        <select class="control-select" id="system-cloak-menu" onchange="applySystemCloak()">
+                            <option value="default">None (Default - CYBER GAMES)</option>
+                            <option value="google">Google Docs</option>
+                            <option value="drive">Google Drive</option>
+                            <option value="canva">Canva Workspace</option>
+                            <option value="wikipedia">Wikipedia, the free encyclopedia</option>
+                            <option value="youtube">YouTube</option>
+                            <option value="outlook">Outlook Mail</option>
+                            <option value="github">GitHub</option>
+                            <option value="zoom">Zoom Meetings</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="config-node-card">
+                    <h3>Emergency Redirection Key</h3>
+                    <div class="input-wrapper-node">
+                        <label>Hardware Escape Macro Trigger Bind:</label>
+                        <button class="macro-bind-btn" id="macro-trigger-button">Bind Emergency Key (Default: `)</button>
+                    </div>
+                    <div class="input-wrapper-node">
+                        <label>Egress Redirection Absolute Destination URL:</label>
+                        <input type="text" class="control-field-input" id="panic-endpoint-url" value="https://www.google.com">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- Navigation Router ---
+        const navigationMap = ['cyber', 'games', 'browser', 'movies', 'about', 'settings'];
+        
+        function navigatePanel(targetNodeId) {
+            navigationMap.forEach(nodeId => {
+                const targetLink = document.getElementById(`tab-link-${nodeId}`);
+                const targetViewPanel = document.getElementById(`panel-${nodeId}`);
+                
+                if (nodeId === targetNodeId) {
+                    targetLink.classList.add('active');
+                    targetViewPanel.classList.add('active');
+                } else {
+                    targetLink.classList.remove('active');
+                    targetViewPanel.classList.remove('active');
+                }
+            });
+        }
+
+        // --- Custom Color Preset Changer Engine ---
+        function executeThemeChange(selectedTheme) {
+            const root = document.documentElement;
+            
+            const presetDirectory = {
+                'blue-purple': {
+                    primary: '#00d2ff',
+                    secondary: '#9d4edd',
+                    bg: '#06020f',
+                    border: 'rgba(157, 78, 221, 0.35)'
+                },
+                'cyan-emerald': {
+                    primary: '#00f3ff',
+                    secondary: '#39ff14',
+                    bg: '#01080c',
+                    border: 'rgba(57, 255, 20, 0.3)'
+                },
+                'crimson-orange': {
+                    primary: '#ff003c',
+                    secondary: '#ff9900',
+                    bg: '#080101',
+                    border: 'rgba(255, 153, 0, 0.3)'
+                },
+                'nebula-pink': {
+                    primary: '#ff007f',
+                    secondary: '#7f00ff',
+                    bg: '#0c0214',
+                    border: 'rgba(127, 0, 255, 0.3)'
+                },
+                'solar-gold': {
+                    primary: '#ffaa00',
+                    secondary: '#00ffcc',
+                    bg: '#0a0702',
+                    border: 'rgba(0, 255, 204, 0.3)'
+                },
+                'monochrome': {
+                    primary: '#ffffff',
+                    secondary: '#666666',
+                    bg: '#111111',
+                    border: 'rgba(255, 255, 255, 0.2)'
+                }
+            };
+
+            const theme = presetDirectory[selectedTheme];
+            if (theme) {
+                root.style.setProperty('--primary-color', theme.primary);
+                root.style.setProperty('--secondary-color', theme.secondary);
+                root.style.setProperty('--bg-color', theme.bg);
+                root.style.setProperty('--panel-border', theme.border);
+            }
+        }
+
+        // --- Proxy Sandbox Form Controller Execution System ---
+        const routerForm = document.getElementById('core-browser-form');
+        const searchInputNode = document.getElementById('core-browser-input');
+        const frameContentNode = document.getElementById('embedded-frame-node');
+        const systemPlaceholderNode = document.getElementById('browser-idle-message');
+        const alertsNoticeBox = document.getElementById('routing-notice-display');
+
+        routerForm.addEventListener('submit', function(eventObj) {
+            eventObj.preventDefault();
+            const stringQuery = searchInputNode.value.trim();
+            if (!stringQuery) return;
+
+            systemPlaceholderNode.classList.add('hidden');
+            alertsNoticeBox.classList.add('hidden');
+            
+            let structuredTargetUrl = "";
+            const validationRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/i;
+
+            if (validationRegex.test(stringQuery)) {
+                structuredTargetUrl = stringQuery.startsWith('http') ? stringQuery : `https://${stringQuery}`;
+                alertsNoticeBox.innerHTML = `[ROUTING TARGET]: Channeling portal to ${structuredTargetUrl}. <a href="${structuredTargetUrl}" target="_blank">Launch Direct Tab Link</a>`;
+                alertsNoticeBox.classList.remove('hidden');
+            } else {
+                structuredTargetUrl = `https://www.google.com/search?q=${encodeURIComponent(stringQuery)}&igu=1`;
+                alertsNoticeBox.innerHTML = `[SEARCH ENGINE]: Launching external search queries. <a href="https://www.google.com/search?q=${encodeURIComponent(stringQuery)}" target="_blank">Launch Direct Engine Tab</a>`;
+                alertsNoticeBox.classList.remove('hidden');
+            }
+
+            frameContentNode.style.display = "block";
+            frameContentNode.src = structuredTargetUrl;
+        });
+
+        // --- Identity Cloak Configuration Registry ---
+        function applySystemCloak() {
+            const chosenOption = document.getElementById('system-cloak-menu').value;
+            const contextPageTitle = document.getElementById('tab-title');
+            const contextFaviconLink = document.getElementById('tab-favicon');
+
+            const profileDirectory = {
+                google: { title: "Google Docs", icon: "https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico" },
+                drive: { title: "My Drive - Google Drive", icon: "https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png" },
+                canva: { title: "Home - Canva", icon: "https://www.canva.com/favicon.ico" },
+                wikipedia: { title: "Wikipedia, the free encyclopedia", icon: "https://en.wikipedia.org/favicon.ico" },
+                youtube: { title: "YouTube", icon: "https://www.youtube.com/favicon.ico" },
+                outlook: { title: "Mail - Outlook", icon: "https://res.cdn.office.net/files/fabric-cdn-prod_20240129.001/assets/brand-icons/product/svg/outlook_16x1.svg" },
+                github: { title: "GitHub", icon: "https://github.githubassets.com/favicons/favicon.svg" },
+                zoom: { title: "Zoom Meetings", icon: "https://st1.zoom.us/zoom.ico" }
+            };
+
+            if (profileDirectory[chosenOption]) {
+                contextPageTitle.textContent = profileDirectory[chosenOption].title;
+                contextFaviconLink.href = profileDirectory[chosenOption].icon;
+            } else {
+                contextPageTitle.textContent = "CYBER GAMES";
+                contextFaviconLink.href = "logo.png";
+            }
+        }
+
+        // --- Fast Intercept Panic Hardware Engine ---
+        let dynamicPanicKey = "`";
+        let listeningStateActive = false;
+        const configMacroBtn = document.getElementById('macro-trigger-button');
+        const targetPanicField = document.getElementById('panic-endpoint-url');
+
+        configMacroBtn.addEventListener('click', () => {
+            listeningStateActive = true;
+            configMacroBtn.textContent = "AWAITING INTERCEPT MATRIX SIGNALS...";
+        });
+
+        window.addEventListener('keydown', (keyEvent) => {
+            if (listeningStateActive) {
+                keyEvent.preventDefault();
+                dynamicPanicKey = keyEvent.key;
+                configMacroBtn.textContent = `BOUND KEY: ${dynamicPanicKey.toUpperCase()}`;
+                listeningStateActive = false;
+                return;
+            }
+
+            if (keyEvent.key === dynamicPanicKey && !listeningStateActive) {
+                let fallbackRedirectionPath = targetPanicField.value.trim();
+                if (fallbackRedirectionPath) {
+                    if (!fallbackRedirectionPath.startsWith('http')) {
+                        fallbackRedirectionPath = 'https://' + fallbackRedirectionPath;
+                    }
+                    window.location.href = fallbackRedirectionPath;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
