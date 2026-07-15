@@ -1,4 +1,5 @@
 <img width="1252" height="384" alt="cyber" src="https://github.com/user-attachments/assets/fa6e747c-de79-4436-bf7e-b3ad3b1069fa" />
+
 # WELCOME TO CYBER GAMES. AN UNBLOCKED GAME SITE FOR SCHOOL!
 
 # CYBER GAMES IS CREATED BY ENCRYPTED AND GARAZ (HOST) AND PARTS WERE MADE WITH THE USE OF AI
